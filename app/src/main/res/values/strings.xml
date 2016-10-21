@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MyFirstNeuraApp</string>
+    <string name="app_uid">d231a46d59d1cd12181b64b925cac2ea480272f3aa9d411d276aebe98126ecbf</string>
+    <string name="app_secret">74e6077b9dd06d5ba4c3caf9e083a65478d42f7f45bb6a8b57f75039de5de498</string>
+    <string name="google_api_project_number">367986524672</string>
+    <string name="neura_login">Neura Login</string>
+    <string name="user_walking">User is Walking</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

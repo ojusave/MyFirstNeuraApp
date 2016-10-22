@@ -34,13 +34,38 @@ public class Main2Activity extends AppCompatActivity {
 //        fragmentTransaction.commit();
 //        getSupportFragmentManager().beginTransaction().add(R.id.activity_main2, fragmentPermissions).commit();
 
+//        View view  = findViewById(R.id.permissions2);
+//        ListView listView = (ListView) view;
+//        ArrayAdapter<Permission> adapter= new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, permissions);
+//        listView.setAdapter(adapter);
+
+//        View view  = findViewById(R.id.permissions2);
+//        ListView listView = (ListView) view;
+//        List<String> strs = new ArrayList<String>();
+//        strs.add("dfsdfsd");strs.add("sdfsdf");strs.add("sdfsdf");
+//        ArrayAdapter<String> adapter= new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, strs);
+//        listView.setAdapter(adapter);
+    }
+
+    private void openFragment(){
+        FragmentPermissions fragmentPermissions = new FragmentPermissions();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.add(R.id.activity_main2, fragmentPermissions);
+        fragmentTransaction.commit();
+    }
+    private void loadListView(){
         View view  = findViewById(R.id.permissions2);
         ListView listView = (ListView) view;
-        ArrayAdapter<Permission> adapter= new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, permissions);
+//        ArrayAdapter<Permission> adapter= new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, permissions);
+//        listView.setAdapter(adapter);
+
+        ArrayAdapter<String> adapter= new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, permissionsDescriptions);
         listView.setAdapter(adapter);
     }
 
     private ArrayList<Permission> permissions = new ArrayList<>();
+    private ArrayList<String> permissionsDescriptions = new ArrayList<>();
     Context context;
 
     private void getPermissions(){
@@ -52,7 +77,11 @@ public class Main2Activity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        permissions.addAll(perms);
+//                        permissions.addAll(perms);
+                        for(Permission permission: perms){
+                            permissionsDescriptions.add(permission.getDisplayName());
+                        }
+                        loadListView();
                     }
                 });
 
@@ -70,6 +99,5 @@ public class Main2Activity extends AppCompatActivity {
         });
 
     }
-
 
 }

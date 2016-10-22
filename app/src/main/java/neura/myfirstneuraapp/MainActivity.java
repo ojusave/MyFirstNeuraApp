@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.View;
@@ -36,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     Button checkPermissions;
     Context context;
+    final String prefsData = "NeuraPrefs";
 
-    private ArrayList<Permission> mPermissions;
+    ArrayList<Permission> mPermissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +51,32 @@ public class MainActivity extends AppCompatActivity {
         checkPermissions = (Button) findViewById(R.id.checkPermissions);
 
         NeuraApp.getInstance().initNeura(this);
+
+        setSignInVisibility();
         setAction();
     }
+    private boolean isSignedIn(){
+        SharedPreferences settings = getSharedPreferences(prefsData, 0);
+        return settings.getBoolean("isSignedIn", false);
+    }
 
-
-
+    private void setSignInVisibility(){
+        if(isSignedIn()){
+            button.setVisibility(View.GONE);
+        }else{
+            button.setVisibility(View.VISIBLE);
+        }
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        setSignInVisibility();
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        setSignInVisibility();
+    }
     private void NeuraAuthentication() {
 
         mPermissions = Permission.list(new String[]{"userStartedRunning", "userStartedWalking", "userFinishedRunning", "userFinishedWalking"});
@@ -64,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(getClass().getSimpleName(), "Successfully authenticate with neura. "
                         + "NeuraUserId = " + authenticateData.getNeuraUserId() + " "
                         + "AccessToken = " + authenticateData.getAccessToken());
+                button.setVisibility(button.GONE);
+                SharedPreferences settings = getSharedPreferences(prefsData, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("isSigned", true);
+                editor.commit();
             }
 
             @Override

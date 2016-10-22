@@ -20,6 +20,7 @@ public class NeuraApp {
     static NeuraApp getInstance() {
         return instance;
     }
+    //
     public NeuraApiClient getClient() {
         return apiClient;
     }
